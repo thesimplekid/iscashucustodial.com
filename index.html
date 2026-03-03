@@ -164,12 +164,177 @@
             width: 14px;
             height: 14px;
         }
+
+        /* ── Nitty Gritty Details ────────────────────────────────── */
+
+        .details-section {
+            display: flex;
+            justify-content: center;
+            padding: 0 2rem 3rem;
+        }
+
+        .details-disclosure {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .details-trigger {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+            width: 100%;
+            text-align: left;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        .details-trigger:hover {
+            color: var(--text);
+        }
+
+        .details-trigger:focus-visible {
+            color: var(--text);
+            outline: 2px solid var(--border);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+
+        .details-trigger-label {
+            flex: 1;
+        }
+
+        .details-chevron {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1),
+                        opacity 0.2s ease;
+            opacity: 0.5;
+        }
+
+        .details-trigger:hover .details-chevron {
+            opacity: 1;
+        }
+
+        .details-trigger[aria-expanded="true"] .details-chevron {
+            transform: rotate(180deg);
+            opacity: 1;
+        }
+
+        .details-trigger[aria-expanded="true"] {
+            color: var(--text);
+        }
+
+        .details-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .details-body.is-open {
+            grid-template-rows: 1fr;
+        }
+
+        .details-body-inner {
+            overflow: hidden;
+        }
+
+        .details-content {
+            padding: 1rem 0 0.25rem;
+            border-top: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.3s ease 0.05s,
+                        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+        }
+
+        .details-body.is-open .details-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .details-content p {
+            font-size: 0.6875rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .details-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .details-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .details-content .verdict {
+            display: inline-block;
+            font-size: 0.625rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 480px) {
+            .details-section {
+                padding: 0 1rem 2.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <main>
         <a href="https://cashu.space/" class="yes-link">Yes.</a>
     </main>
+
+    <section class="details-section" aria-label="Technical details">
+        <div class="details-disclosure">
+            <button
+                class="details-trigger"
+                aria-expanded="false"
+                aria-controls="details-body"
+                id="details-trigger"
+            >
+                <span class="details-trigger-label">the nitty gritty details</span>
+                <svg class="details-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 4l4 4 4-4"/>
+                </svg>
+            </button>
+            <div class="details-body" id="details-body" role="region" aria-labelledby="details-trigger">
+                <div class="details-body-inner">
+                    <div class="details-content">
+                        <p>
+                            Technically speaking, Chaumian ecash is <strong>non-custodial at the cryptographic layer</strong> — you hold the tokens, the mint never sees your balances, and it cannot move or seize your ecash directly. Blind signatures are genuinely clever.
+                        </p>
+                        <p>
+                            Here's the catch: most ecash mints today are backed by a <strong>reserve asset</strong> — usually bitcoin — which <em>is</em> held by the mint. The mint controls that bitcoin. If the mint rugs, gets hacked, or simply disappears, your ecash becomes worthless. The underlying collateral is fully custodial.
+                        </p>
+                        <p>
+                            So: <strong>custodial bitcoin wrapped in a non-custodial protocol</strong>. The cryptography is beautiful. The trust model is not. For the purposes of this website — and honest conversations with anyone who asks — yes, Cashu is custodial.
+                        </p>
+                        <span class="verdict">tl;dr &mdash; trust the math, not the mint</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="footer-content">
@@ -219,5 +384,15 @@
             </div>
         </div>
     </footer>
+    <script>
+        const trigger = document.getElementById('details-trigger');
+        const body = document.getElementById('details-body');
+
+        trigger.addEventListener('click', () => {
+            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+            trigger.setAttribute('aria-expanded', String(!isOpen));
+            body.classList.toggle('is-open', !isOpen);
+        });
+    </script>
 </body>
 </html>

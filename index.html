@@ -42,9 +42,11 @@
         main {
             flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            gap: 2rem;
         }
 
         .yes-link {
@@ -170,7 +172,7 @@
         .details-section {
             display: flex;
             justify-content: center;
-            padding: 0 2rem 3rem;
+            width: 100%;
         }
 
         .details-disclosure {
@@ -292,19 +294,14 @@
             margin-top: 0.25rem;
         }
 
-        @media (max-width: 480px) {
-            .details-section {
-                padding: 0 1rem 2.5rem;
-            }
-        }
+
     </style>
 </head>
 <body>
     <main>
         <a href="https://cashu.space/" class="yes-link">Yes.</a>
-    </main>
 
-    <section class="details-section" aria-label="Technical details">
+        <section class="details-section" aria-label="Technical details">
         <div class="details-disclosure">
             <button
                 class="details-trigger"
@@ -312,7 +309,7 @@
                 aria-controls="details-body"
                 id="details-trigger"
             >
-                <span class="details-trigger-label">the nitty gritty details</span>
+                <span class="details-trigger-label">let's be precise</span>
                 <svg class="details-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M2 4l4 4 4-4"/>
                 </svg>
@@ -327,14 +324,15 @@
                             Here's the catch: most ecash mints today are backed by a <strong>reserve asset</strong> — usually bitcoin — which <em>is</em> held by the mint. The mint controls that bitcoin. If the mint rugs, gets hacked, or simply disappears, your ecash becomes worthless. The underlying collateral is fully custodial.
                         </p>
                         <p>
-                            So: <strong>custodial bitcoin wrapped in a non-custodial protocol</strong>. The cryptography is beautiful. The trust model is not. For the purposes of this website — and honest conversations with anyone who asks — yes, Cashu is custodial.
+                            So: <strong>custodial bitcoin wrapped in a non-custodial protocol</strong>. Cashu is a genuinely elegant system — just know that using it means trusting a mint with your bitcoin. Understand the risk, use it accordingly.
                         </p>
                         <span class="verdict">tl;dr &mdash; trust the math, not the mint</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
         <div class="footer-content">
